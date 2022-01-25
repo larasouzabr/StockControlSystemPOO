@@ -63,7 +63,7 @@ public class Provider extends Person {
 
     }
 
-    public void sellExistingProduct(String name, int id){
+    public void sellExistingProduct(Product product, int qtdToBeReposed){
         
     }
 }    
