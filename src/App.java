@@ -1,11 +1,12 @@
 import personPackage.Provider;
+import productPackage.Product;
+import stockPackage.Stock;
 
 public class App {    
     public static void main(String[] args) throws Exception {
 
-        Provider provider = new Provider("robertinho");
-
-        provider.ProviderObj();
-        System.out.println(provider.ProdBD);
+        Stock stock = new Stock();
+        
+       stock.listProducts();
     }
 }
