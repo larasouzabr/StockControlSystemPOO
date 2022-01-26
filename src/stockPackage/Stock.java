@@ -16,7 +16,7 @@ public class Stock {
     
      public Stock(){
 
-            Product Obj00 = new Product("Alicate", 1, 22, 30.00f, SearchProductEnum.MuitoProcurado,AvalProductEnum.MEDIA);
+            Product Obj00 = new Product("Alicate", 1, 22, 44.0f, SearchProductEnum.MuitoProcurado,AvalProductEnum.MEDIA);
             Product Obj01 = new Product("Chave De Fenda", 2, 13, 19.90f, SearchProductEnum.MuitoProcurado,AvalProductEnum.MEDIA);
             Product Obj02 = new Product("Chave De Catraca", 3, 6, 44.90f, SearchProductEnum.MuitoProcurado,AvalProductEnum.MEDIA);
             Product Obj03 = new Product("Macaco", 4, 7, 14.90f, SearchProductEnum.MuitoProcurado,AvalProductEnum.MEDIA);
@@ -32,8 +32,11 @@ public class Stock {
     }
 
     public void stockAdd(String name, int id){
+        Product productAdd = new Product(name, id, 0,144.0f);
+        stock.add(productAdd);
+        System.out.println("Produto Adicionado no Estoque"); 
 
-        boolean providerDisponibility = false;        
+        /* boolean providerDisponibility = false;        
         for(int i = 0; i< Provider.getDisponibleProducts().size(); i++){
 
             if(Provider.ProdBD.get(i).getName().endsWith(name)){
@@ -48,12 +51,12 @@ public class Stock {
                 
                 else {
                     Product productAdd = new Product(name, id, 0, Employee.calculateProfitMargin(Provider.ProdBD.get(i).getPrice()));
-                    stock.add(productAdd);
+                    stock.add(i++,productAdd);
                     System.out.println("Produto Adicionado no Estoque");
                     break;
                 }
                 }
-            }
+            } 
         }
 
         if(providerDisponibility == false) {
@@ -61,6 +64,7 @@ public class Stock {
             System.out.println("Lista dos produtos disponiveis no fornecedor: \n");
             Provider.getDisponibleProducts();
         }
+        */
     }
     public void stockShipment(String name, int quantity){
         

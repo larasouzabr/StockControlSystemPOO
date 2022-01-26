@@ -1,42 +1,46 @@
 package personPackage;
 
+import java.util.Scanner;
+
 import productPackage.Product;
 import stockPackage.Stock;
 
-public class Employee extends Person{
-
-    
+public class Employee extends Person {
+    String separator = "---------------------------------------";
     Stock stockAccess = new Stock();
-    
-    public Employee(String name){
+
+    public Employee(String name) {
         super(name);
     }
-    
-    public void createProduct(String name, int id){
+
+    public void createProduct(String name, int id) {
         stockAccess.stockAdd(name, id);
 
     }
-    public void productShipment(String name, int qtd){
+
+    public void productShipment(String name, int qtd) {
         stockAccess.stockShipment(name, qtd);
     }
-    public void productReplenish(String name, int qtdToBeReplenish){
+
+    public void productReplenish(String name, int qtdToBeReplenish) {
         stockAccess.stockReplanish(name, qtdToBeReplenish);
 
     }
-    void editProduct(int id, String name ){
-        
-    }
-    void deleteProduct(String name){
+
+    void editProduct(int id, String name) {
 
     }
-    public void findProductById(int id){
+
+    void deleteProduct(String name) {
+
+    }
+
+    public void findProductById(int id) {
         System.out.println("Pesquisando ID de produto: " + id);
         boolean ProdutoEncontrado = false;
 
-        for(int i = 0; i < stockAccess.stock.size(); i++)
-        {
-            if(stockAccess.stock.get(i).getId() == id)
-            {
+        for (int i = 0; i < stockAccess.stock.size(); i++) {
+            if (stockAccess.stock.get(i).getId() == id) {
 
                 System.out.println(stockAccess.stock.get(i).toString());
                 ProdutoEncontrado = true;
@@ -44,20 +48,18 @@ public class Employee extends Person{
             }
         }
 
-        if(ProdutoEncontrado == false)
-        {
+        if (ProdutoEncontrado == false) {
             System.out.println("AVISO: Produto não encontrado!");
         }
     }
-    public void findProductByName(String name){
 
-         System.out.println("Pesquisando Nome de produto: " + name);
+    public void findProductByName(String name) {
+
+        System.out.println("Pesquisando.... \nNome do produto: " + name);
         boolean ProdutoEncontrado = false;
 
-        for(int i = 0; i < stockAccess.stock.size(); i++)
-        {
-            if(stockAccess.stock.get(i).getName().endsWith(name))
-            {
+        for (int i = 0; i < stockAccess.stock.size(); i++) {
+            if (stockAccess.stock.get(i).getName().endsWith(name)) {
 
                 System.out.println(stockAccess.stock.get(i).toString());
                 ProdutoEncontrado = true;
@@ -65,13 +67,91 @@ public class Employee extends Person{
             }
         }
 
-        if(ProdutoEncontrado == false)
-        {
+        if (ProdutoEncontrado == false) {
             System.out.println("AVISO: Produto não encontrado!");
         }
 
     }
-    public static float calculateProfitMargin(float suggestedPrice){
-        return suggestedPrice *  1.15f;
+
+    public static float calculateProfitMargin(float suggestedPrice) {
+        return suggestedPrice * 1.15f;
+    }
+
+    public void findProduct(Stock estoque) {
+        System.out.print("Digite um numero para entrar com um nome ou id de um produto:\n(1) - id\n(2) - nome   ");
+        Scanner escolha = new Scanner(System.in);
+        int escolhaStr = Integer.parseInt(escolha.next());
+        if (escolhaStr == 1) {
+            System.out.println("\n"+separator);
+            System.out.print("Insira o id de um produto: ");
+            Scanner id = new Scanner(System.in);
+            String idStr = id.next();
+            try {
+                int ID_ProdInt = Integer.parseInt(idStr);
+
+                findProductById(ID_ProdInt);
+            } catch (Exception e) {
+                System.out.println("\n\n" + e.getMessage() + "\n\n");
+            }
+        } else if (escolhaStr == 2) {
+            System.out.println("\n"+separator);
+
+            System.out.print("Insira o nome de um produto: ");
+            System.out.println(separator+"\n");
+
+            Scanner name = new Scanner(System.in);
+            String nameStr = iniMaiuscula(name.next());
+            try {
+                findProductByName(nameStr);
+            } catch (Exception e) {
+                System.out.println("\n\n" + e.getMessage() + "\n\n");
+            }
+        }
+    }
+
+    public void productReplenish(Stock estoque) {
+        System.out.println(separator);
+        System.out.print("Digite o nome do produto: ");
+        Scanner name = new Scanner(System.in);
+        String nameStr = iniMaiuscula(name.next());
+        System.out.println("\n"+separator);
+        System.out.print("Digite a quantidade do produto a ser reposta: ");
+        Scanner qtd = new Scanner(System.in);
+        int qtdNbr = Integer.parseInt(qtd.next());
+        System.out.println("\n"+separator);
+        try {
+        productReplenish(nameStr, qtdNbr);
+        } catch (Exception e) {
+            System.out.println("\n\n" + e.getMessage() + "\n\n");
+        }
+    }
+
+    public static String iniMaiuscula(String value) {
+        String result = "";
+        String[] nomes = value.split(" ");
+
+        for (String palavra : nomes) {
+            result = result + " "
+            + palavra.replaceFirst(palavra.substring(0, 1), palavra.substring(0, 1).toUpperCase());
+        }
+        return result.trim();
+    }
+
+    public void productShipment(Stock estoque) {
+        System.out.println(separator+"\n");
+        System.out.print("Digite o nome do produto: ");
+        Scanner name = new Scanner(System.in);
+        String nameStr = iniMaiuscula(name.next());
+        System.out.println(separator);
+        System.out.print("Digite a quantidade do produto a sair do estoque: ");
+        Scanner qtd = new Scanner(System.in);
+        int qtdNbr = Integer.parseInt(qtd.next());
+        System.out.println("\n"+separator);
+
+        try {
+            productShipment(nameStr, qtdNbr);
+        } catch (Exception e) {
+            System.out.println("\n\n" + e.getMessage() + "\n\n");
+        }
     }
 }
