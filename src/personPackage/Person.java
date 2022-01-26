@@ -8,7 +8,7 @@ public abstract class Person {
     }
 
     public String getName(){
-     return this.name;
+     return name;
     }
     private void setName(String name){
         this.name = name;
