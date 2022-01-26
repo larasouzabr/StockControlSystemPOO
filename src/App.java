@@ -10,10 +10,18 @@ public class App {
         Employee employee = new Employee("Roberto");
         Provider provider = new Provider("Mauro");
         
+        provider.ProviderObj();
         employee.createProduct(iniMaiuscula("chave inglesa"), 15);
         employee.createProduct(iniMaiuscula("pneu"), 8);
-        stock.stockAdd("bola", 7);
+        provider.getDisponibleProducts();
         stock.listProducts();
+        employee.findProductByName("Pneu");
+        employee.productShipment("Alicate", 2);
+        employee.productReplenish("Alicate", 2);
+        employee.productShipment("Alicate", 10);
+        employee.findProductByName("Alicate");
+
+       stock .listProducts();
     }
     
     public static String iniMaiuscula(String value) {

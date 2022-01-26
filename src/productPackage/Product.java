@@ -119,7 +119,7 @@ public class Product {
         this.id = id;
     }
 
-    private void setQtd(int qtd){
+    public void setQtd(int qtd){
         this.quantity = qtd;
     }
 

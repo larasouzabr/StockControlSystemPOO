@@ -62,6 +62,63 @@ public class Stock {
             Provider.getDisponibleProducts();
         }
     }
+    public void stockShipment(String name, int quantity){
+        
+        for(int i = 0; i< stock.size(); i++){
+
+            if(stock.get(i).getName().endsWith(name)){
+                if(stock.get(i).getQtd() >= quantity){
+                    stock.get(i).setQtd(stock.get(i).getQtd() - quantity);
+                    System.out.println("Você retirou " + quantity+ " unidades de " + name + " do estoque e agora possui " + stock.get(i).getQtd() + " disponíveis");
+                    break;
+                }
+                else{
+                    System.out.println("ATENÇÃO: Quantidade máxima do produto " + name +" presente no estoque é " + stock.get(i).getQtd());
+                    break;
+                }
+            }
+            else{
+                System.out.println("ATENÇÃO: Produto não existente no estoque");
+                break;
+            }
+        }
+
+    }
+
+    public void stockReplanish(String name, int quantity){
+
+        boolean providerDisponibility = false;
+
+        for(int i = 0; i< stock.size(); i++){
+
+            if(stock.get(i).getName().endsWith(name)){
+
+                for(int j = 0; j<Provider.ProdBD.size(); i++){
+
+                    if(Provider.ProdBD.get(j).getName().endsWith(name)){
+
+                        if(quantity <= Provider.ProdBD.get(j).getQtd()){
+                            Provider.ProdBD.get(j).setQtd(Provider.ProdBD.get(j).getQtd() - quantity);
+                            stock.get(i).setQtd(stock.get(i).getQtd() + quantity);
+                            System.out.println("O produto " + stock.get(i).getName() + " foi reabastecido com " + quantity + " unidades e agora possui " + stock.get(i).getQtd());
+                            providerDisponibility = true;
+                            break;
+                        }
+
+                        else{
+                            System.out.println("ATENÇÃO: O número máximo de unidades que o fornecedor possui é " + Provider.ProdBD.get(j).getQtd());
+                            break;
+                        }
+                        
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
 
     public ArrayList getProducts(){
         return this.stock;

@@ -16,10 +16,11 @@ public class Employee extends Person{
         stockAccess.stockAdd(name, id);
 
     }
-    void productShipment(String name,int id){
-
+    public void productShipment(String name, int qtd){
+        stockAccess.stockShipment(name, qtd);
     }
-    void productReplenish(String name, int qtdToBeReplenish){
+    public void productReplenish(String name, int qtdToBeReplenish){
+        stockAccess.stockReplanish(name, qtdToBeReplenish);
 
     }
     void editProduct(int id, String name ){
