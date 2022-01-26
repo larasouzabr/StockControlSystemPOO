@@ -16,7 +16,8 @@ public class Product {
      * @param id - Código do Produto
      * @param quantity - Quantidade disponível no estoque
      * @param price - Preço do produto
-     * @param procuraDoProduto - a popularidade do produto
+     * @param productSearch - a popularidade do produto
+     * @param productAvailability - a disponibilidade do produto
      */
 
     public Product(String name, int id, int quantity, float price){
@@ -139,8 +140,11 @@ public class Product {
     }
     public String toString(){
         String separator ="-------------------------------";
-        String productInfo = "\nProduto: " + this.getName() + "\n" + "Código: " + this.getId() + "\n" + "Valor Unitário: " + this.getPrice() + "\n" + "Quantidade disponível: " + this.getQtd() + "\n" + separator;
-        return productInfo;
+        String productInfo = "\nProduto: " + this.getName() + "\n" + "Código: " + this.getId() + "\n" + "Valor Unitário: " + this.getPrice() + "\n" + "Quantidade disponível: " + this.getQtd() + "\n";
+       if(this.getProductSearch() == null || this.getProductAvailability() == null){
+        return productInfo + separator;
+       } 
+     else return productInfo + "Popularidade: " + SearchProdClass.ProcuraProduto2String(this.getProductSearch())+ "\n" + "Disponibilidade no estoque: " + AvalClass.DispE2Str(this.getProductAvailability()) + "\n" + separator;
     }
 
 }

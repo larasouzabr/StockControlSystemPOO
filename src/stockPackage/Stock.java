@@ -8,6 +8,8 @@ import productPackage.Product;
 import productPackage.SearchProdClass;
 import productPackage.SearchProductEnum;
 import personPackage.Provider;
+import personPackage.Employee;
+import personPackage.Person;
 
 public class Stock {
     public ArrayList<Product> stock = new ArrayList<Product>();
@@ -15,48 +17,54 @@ public class Stock {
      public Stock(){
 
             Product Obj00 = new Product("Alicate", 1, 22, 30.00f, SearchProductEnum.MuitoProcurado,AvalProductEnum.MEDIA);
-            Product Obj01 = new Product("Chave de Fenda", 2, 13, 19.90f);
-            Product Obj02 = new Product("Chave de Catraca", 3, 6, 44.90f);
-            Product Obj03 = new Product("Macaco", 4, 7, 14.90f);
-            Product Obj04 = new Product("Paquímetro", 5, 13, 70.00f);
-            Product Obj05 = new Product("Torquímetro", 6, 24, 650.00f);
-            Product Obj06 = new Product("Pneu", 7, 42, 129.90f);
-            Product Obj07 = new Product("Painel Porta Ferramentas", 8, 37, 130.00f);
-            Product Obj08 = new Product("Bateria de Carro", 9, 55, 199.90f);
-            Product Obj09 = new Product("Chave Estrela", 10, 4, 260.00f);
-            Product Obj10 = new Product("Bandeja Coletora Oleo", 11, 120, 200.00f);
-            Product Obj11 = new Product("Limpador de Vidro", 12, 40, 49.90f);
-            Product Obj12 = new Product("Calibrador Digital", 13, 55, 280.00f);
-            Product Obj13 = new Product("Torno de Bancada", 14, 43, 520.00f);
-            Product Obj14 = new Product("Tapete para Carro", 15, 77, 129.90f);
-            Product Obj15 = new Product("Carrinho para Ferramentas",16 , 75, 1049.00f);
-            Product Obj16 = new Product("Kit de Limpeza", 17, 102, 59.90f);
-            Product Obj17 = new Product("Encolhedor de Molas", 18, 33, 27.00f);
-            Product Obj18 = new Product("Densimetro", 19, 26, 50.00f);
-            Product Obj19 = new Product("Óleo", 20, 78, 99.90f);
-            Product Obj20  = new Product("Bateria de Moto", 21, 88, 119.90f);
+            Product Obj01 = new Product("Chave De Fenda", 2, 13, 19.90f, SearchProductEnum.MuitoProcurado,AvalProductEnum.MEDIA);
+            Product Obj02 = new Product("Chave De Catraca", 3, 6, 44.90f, SearchProductEnum.MuitoProcurado,AvalProductEnum.MEDIA);
+            Product Obj03 = new Product("Macaco", 4, 7, 14.90f, SearchProductEnum.MuitoProcurado,AvalProductEnum.MEDIA);
+            Product Obj04 = new Product("Paquímetro", 5, 13, 70.00f, SearchProductEnum.MuitoProcurado,AvalProductEnum.MEDIA);
+            Product Obj05 = new Product("Torquímetro", 6, 24, 650.00f, SearchProductEnum.MuitoProcurado,AvalProductEnum.MEDIA);
       
-            stock.add(0, Obj00);
-            stock.add(1, Obj01);
-            stock.add(2, Obj02);
-            stock.add(3, Obj03);
-            stock.add(4, Obj04);
-            stock.add(5, Obj05);
-            stock.add(6, Obj06);
-            stock.add(7, Obj07);
-            stock.add(8, Obj08);
-            stock.add(9, Obj09);
-            stock.add(10, Obj10);
-            stock.add(11, Obj11);
-            stock.add(12, Obj12);
-            stock.add(13, Obj13);
-            stock.add(14, Obj14);
-            stock.add(15, Obj15);
-            stock.add(16, Obj16);
-            stock.add(17, Obj17);
-            stock.add(18, Obj18);
-            stock.add(19, Obj19);     
-            stock.add(20, Obj20);   
+            stock.add(Obj00);
+            stock.add(Obj01);
+            stock.add(Obj02);
+            stock.add(Obj03);
+            stock.add(Obj04);
+            stock.add(Obj05);
+    }
+
+    public void stockAdd(String name, int id){
+
+        boolean providerDisponibility = false;        
+        for(int i = 0; i< Provider.getDisponibleProducts().size(); i++){
+
+            if(Provider.ProdBD.get(i).getName().endsWith(name)){
+                providerDisponibility = true;
+ 
+                for(int j = 0; j< stock.size(); j++){
+
+                if(stock.get(j).getName().endsWith(name)){
+                    System.out.println("O produto " + name + " já está disponível no seu estoque.");
+                    break;
+                }
+                
+                else {
+                    Product productAdd = new Product(name, id, 0, Employee.calculateProfitMargin(Provider.ProdBD.get(i).getPrice()));
+                    stock.add(productAdd);
+                    System.out.println("Produto Adicionado no Estoque");
+                    break;
+                }
+                }
+            }
+        }
+
+        if(providerDisponibility == false) {
+            System.out.println("O seu fornecedor não possui o produto " +name);
+            System.out.println("Lista dos produtos disponiveis no fornecedor: \n");
+            Provider.getDisponibleProducts();
+        }
+    }
+
+    public ArrayList getProducts(){
+        return this.stock;
     }
 
 
@@ -65,7 +73,7 @@ public class Stock {
         for (Product produto : stock)
         {
             String ProdutoInfo = "";
-
+          
             ProdutoInfo += Integer.toString(produto.getId()) + " | ";
             ProdutoInfo += produto.getName() + " | ";
             ProdutoInfo += "R$ " + Float.toString(produto.getPrice()) + " | ";

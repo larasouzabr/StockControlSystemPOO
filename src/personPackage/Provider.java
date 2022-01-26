@@ -6,7 +6,7 @@ import productPackage.Product;
 
 public class Provider extends Person {
     public float suggestedPrice;
-    public ArrayList<Product> ProdBD = new ArrayList<Product>(21);
+    public static ArrayList<Product> ProdBD = new ArrayList<Product>(21);
     public void ProviderObj(){
         { 
             Product Obj00 = new Product("Alicate", 1, 1000, 30.00f);
@@ -56,6 +56,11 @@ public class Provider extends Person {
             ProdBD.add(20, Obj20);     
         }
     }
+
+    public static ArrayList getDisponibleProducts(){
+        return ProdBD;
+    }
+
     public Provider(String name){
         super(name);
     }
