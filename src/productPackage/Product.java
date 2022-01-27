@@ -28,6 +28,7 @@ public class Product {
     }
 
     public Product(String name, int id, int quantity, float price, SearchProductEnum searchEnum, AvalProductEnum availability){
+        
         this.name = name;
         this.quantity = quantity;
         this.id = id;

@@ -32,96 +32,108 @@ public class Stock {
     }
 
     public void stockAdd(String name, int id){
-        Product productAdd = new Product(name, id, 0,144.0f);
-        stock.add(productAdd);
-        System.out.println("Produto Adicionado no Estoque"); 
+        boolean disponibilityStock = true;
 
-        /* boolean providerDisponibility = false;        
-        for(int i = 0; i< Provider.getDisponibleProducts().size(); i++){
+        for(int i = 0; i< stock.size(); i++)
+            if(stock.get(i).getName().endsWith(name)){
+                 System.out.println("ATENÇÃO: Produto já existente no estoque\n");
+                 disponibilityStock = false;
+                 break;
+            }
+        
 
-            if(Provider.ProdBD.get(i).getName().endsWith(name)){
-                providerDisponibility = true;
- 
-                for(int j = 0; j< stock.size(); j++){
+        if(disponibilityStock == true){
+            boolean disponibilityProvider = false;
 
-                if(stock.get(j).getName().endsWith(name)){
-                    System.out.println("O produto " + name + " já está disponível no seu estoque.");
+            for(int j = 0; j< Provider.ProdBD.size(); j++){
+
+                if(Provider.ProdBD.get(j).getName().endsWith(name)){
+
+                    Product productAdd = new Product(name, id, 0, Provider.ProdBD.get(j).getPrice(), SearchProductEnum.NãoProcurado, AvalProductEnum.INDISPONIVEL);
+                    stock.add(productAdd);
+                    System.out.println("Produto Adicionado no Estoque\n Caso queira adicionar unidades desse produto digite 'reporproduto'\n");
+                    disponibilityProvider = true;
                     break;
-                }
-                
-                else {
-                    Product productAdd = new Product(name, id, 0, Employee.calculateProfitMargin(Provider.ProdBD.get(i).getPrice()));
-                    stock.add(i++,productAdd);
-                    System.out.println("Produto Adicionado no Estoque");
-                    break;
-                }
-                }
-            } 
+            }
         }
 
-        if(providerDisponibility == false) {
-            System.out.println("O seu fornecedor não possui o produto " +name);
-            System.out.println("Lista dos produtos disponiveis no fornecedor: \n");
-            Provider.getDisponibleProducts();
+        if(disponibilityProvider == false) System.out.println("ATENÇÃO: Esse produto não é disponibilizado pelo fornecedor\n");
         }
-        */
     }
     public void stockShipment(String name, int quantity){
         
+        boolean disponibilityStock = false;
+
         for(int i = 0; i< stock.size(); i++){
 
-            if(stock.get(i).getName().endsWith(name)){
+            if(stock.get(i).getName().startsWith(name)){
+
                 if(stock.get(i).getQtd() >= quantity){
                     stock.get(i).setQtd(stock.get(i).getQtd() - quantity);
-                    System.out.println("Você retirou " + quantity+ " unidades de " + name + " do estoque e agora possui " + stock.get(i).getQtd() + " disponíveis");
+                    System.out.println("Você retirou " + quantity+ " unidades de " + name + " do estoque e agora possui " + stock.get(i).getQtd() + " disponíveis\n");
+                    disponibilityStock = true;
+                    break;
+
+                }
+                else {
+                    System.out.println("ATENÇÃO: Quantidade máxima do produto " + name +" presente no estoque é " + stock.get(i).getQtd() + "\n");
+                    disponibilityStock = true;
                     break;
                 }
-                else{
-                    System.out.println("ATENÇÃO: Quantidade máxima do produto " + name +" presente no estoque é " + stock.get(i).getQtd());
-                    break;
-                }
+
             }
-            else{
-                System.out.println("ATENÇÃO: Produto não existente no estoque");
-                break;
-            }
+
         }
 
+        if(disponibilityStock == false) System.out.println("ATENÇÃO: Produto não existe no estoque\n");
     }
 
     public void stockReplanish(String name, int quantity){
 
-        boolean providerDisponibility = false;
+        boolean disponibilityProvider = false;
+
+        for(int j = 0; j< Provider.ProdBD.size(); j++){
+            if(Provider.ProdBD.get(j).getName().startsWith(name)){
+                if(Provider.ProdBD.get(j).getQtd() >= quantity){
+                    Provider.ProdBD.get(j).setQtd(Provider.ProdBD.get(j).getQtd() - quantity);
+                    disponibilityProvider = true;
+                    break;
+                }
+
+                else {
+                    System.out.println("ATENÇÃO: O número máximo de unidades que o fornecedor possui é " + Provider.ProdBD.get(j).getQtd()+"\n");
+                    break;
+                }
+            }
+        }
+
+        if(disponibilityProvider == true){
+        for(int i = 0; i< stock.size(); i++){
+            if(stock.get(i).getName().startsWith(name)){
+                stock.get(i).setQtd(stock.get(i).getQtd() + quantity);
+                System.out.println("O produto " + stock.get(i).getName() + " foi reabastecido com " + quantity + " unidades e agora possui " + stock.get(i).getQtd()+"\n");
+                break;
+            }
+        }
+
+        } else System.out.println("ATENÇÃO: Produto não existe\n");
+
+    }
+
+    public void stockDeleteProduct(String name){
+
+        boolean existInStock = false;
 
         for(int i = 0; i< stock.size(); i++){
 
             if(stock.get(i).getName().endsWith(name)){
-
-                for(int j = 0; j<Provider.ProdBD.size(); i++){
-
-                    if(Provider.ProdBD.get(j).getName().endsWith(name)){
-
-                        if(quantity <= Provider.ProdBD.get(j).getQtd()){
-                            Provider.ProdBD.get(j).setQtd(Provider.ProdBD.get(j).getQtd() - quantity);
-                            stock.get(i).setQtd(stock.get(i).getQtd() + quantity);
-                            System.out.println("O produto " + stock.get(i).getName() + " foi reabastecido com " + quantity + " unidades e agora possui " + stock.get(i).getQtd());
-                            providerDisponibility = true;
-                            break;
-                        }
-
-                        else{
-                            System.out.println("ATENÇÃO: O número máximo de unidades que o fornecedor possui é " + Provider.ProdBD.get(j).getQtd());
-                            break;
-                        }
-                        
-                    }
-
-                }
-
+                existInStock = true;
+                System.out.println("O produto " + stock.get(i).getName() + " e todas as suas informações foram deletadas do estoque\n");
+                stock.remove(i);
             }
-
         }
 
+        if(existInStock == false) System.out.println("ATENÇÃO: O produto " + name + " não existe no seu estoque\n");
     }
 
     public ArrayList getProducts(){
@@ -131,6 +143,7 @@ public class Stock {
 
     public void listProducts(){
         System.out.println("Produtos encontrados:\n--------------------------------------------------");
+
         for (Product produto : stock)
         {
             String ProdutoInfo = "";

@@ -24,15 +24,18 @@ public class Employee extends Person {
 
     public void productReplenish(String name, int qtdToBeReplenish) {
         stockAccess.stockReplanish(name, qtdToBeReplenish);
+    }
 
+    public void productList(){
+        stockAccess.listProducts();
     }
 
     void editProduct(int id, String name) {
 
     }
 
-    void deleteProduct(String name) {
-
+    public void deleteProduct(String name) {
+        stockAccess.stockDeleteProduct(name);
     }
 
     public void findProductById(int id) {
@@ -76,6 +79,28 @@ public class Employee extends Person {
     public static float calculateProfitMargin(float suggestedPrice) {
         return suggestedPrice * 1.15f;
     }
+
+
+    public void createProduct(Stock estoque) {
+        System.out.println(separator+"\n");
+        System.out.print("Digite o nome do produto: ");
+        Scanner name = new Scanner(System.in);
+        String nameStr = iniMaiuscula(name.next());
+        System.out.println(separator);
+        System.out.print("Digite o código do produto: ");
+        Scanner id = new Scanner(System.in);
+        int idNbr = Integer.parseInt(id.next());
+        System.out.println("\n"+separator);
+
+        try {
+            createProduct(nameStr, idNbr);
+        } catch (Exception e) {
+            System.out.println("\n\n" + e.getMessage() + "\n\n");
+        }
+    }
+
+
+
 
     public void findProduct(Stock estoque) {
         System.out.print("Digite um numero para entrar com um nome ou id de um produto:\n(1) - id\n(2) - nome   ");
@@ -154,4 +179,19 @@ public class Employee extends Person {
             System.out.println("\n\n" + e.getMessage() + "\n\n");
         }
     }
+
+    public void deleteProduct(Stock estoque) {
+        System.out.println(separator+"\n");
+        System.out.print("Digite o nome do produto: ");
+        Scanner name = new Scanner(System.in);
+        String nameStr = iniMaiuscula(name.next());
+        System.out.println("\n"+separator);
+
+        try {
+            deleteProduct(nameStr);
+        } catch (Exception e) {
+            System.out.println("\n\n" + e.getMessage() + "\n\n");
+        }
+    }
+
 }
