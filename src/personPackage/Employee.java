@@ -1,8 +1,6 @@
 package personPackage;
 
 import java.util.Scanner;
-
-import productPackage.Product;
 import stockPackage.Stock;
 
 public class Employee extends Person {
@@ -15,7 +13,6 @@ public class Employee extends Person {
 
     public void createProduct(String name, int id) {
         stockAccess.stockAdd(name, id);
-
     }
 
     public void productShipment(String name, int qtd) {
@@ -30,8 +27,8 @@ public class Employee extends Person {
         stockAccess.listProducts();
     }
 
-    void editProduct(int id, String name) {
-
+    public void editProduct(int id, String name) {
+        stockAccess.editProduct(id, name);
     }
 
     public void deleteProduct(String name) {
@@ -175,6 +172,24 @@ public class Employee extends Person {
 
         try {
             productShipment(nameStr, qtdNbr);
+        } catch (Exception e) {
+            System.out.println("\n\n" + e.getMessage() + "\n\n");
+        }
+    }
+
+    public void editProduct(Stock estoque) {
+        System.out.println(separator+"\n");
+        System.out.print("Digite o nome do produto que deseja editar: ");
+        Scanner name = new Scanner(System.in);
+        String nameStr = iniMaiuscula(name.next());
+        System.out.println(separator);
+        System.out.print("Digite o novo ID do produto: ");
+        Scanner id = new Scanner(System.in);
+        int idNbr = Integer.parseInt(id.next());
+        System.out.println("\n"+separator);
+
+        try {
+            editProduct(idNbr, nameStr);
         } catch (Exception e) {
             System.out.println("\n\n" + e.getMessage() + "\n\n");
         }

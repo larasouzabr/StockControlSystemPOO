@@ -1,12 +1,19 @@
 package personPackage;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
-
+import java.util.Locale;
 import productPackage.Product;
 
 public class Provider extends Person {
-    public float suggestedPrice;
+
     public static ArrayList<Product> ProdBD = new ArrayList<Product>(21);
+    Locale localeBR = new Locale("pt","BR");
+
+    public Provider(String name){
+        super(name);
+    }
+
     public void ProviderObj(){
         { 
             Product Obj00 = new Product("Alicate", 1, 1000, 30.00f);
@@ -30,8 +37,6 @@ public class Provider extends Person {
             Product Obj18 = new Product("Densimetro", 19, 1000, 50.00f);
             Product Obj19 = new Product("Óleo", 20, 1000, 99.90f);
             Product Obj20  = new Product("Bateria de Moto", 21, 1000, 119.90f);
-    
-  
         
             ProdBD.add(0, Obj00);
             ProdBD.add(1, Obj01);
@@ -57,21 +62,52 @@ public class Provider extends Person {
         }
     }
 
-    public static ArrayList getDisponibleProducts(){
-        return ProdBD;
+    public void listProviderProducts(){
+        NumberFormat dinheiro = NumberFormat.getCurrencyInstance(localeBR);
+
+        System.out.println("Produtos fornecidos:\n--------------------------------------------------");
+
+        for (Product produto : ProdBD)
+        {
+            String ProdutoInfo = "";
+          
+            ProdutoInfo += Integer.toString(produto.getId()) + " | ";
+            ProdutoInfo += produto.getName() + " | ";
+            ProdutoInfo += dinheiro.format(produto.getPrice()) + " | ";
+            ProdutoInfo += Integer.toString(produto.getQtd()) + "und | ";
+
+            System.out.println(ProdutoInfo);
+        }
+        System.out.println("--------------------------------------------------");
+
     }
 
-    public Provider(String name){
-        super(name);
-    }
-    public void sellNewProduct(String name, int id, int suggestedPrice){
+    public static boolean sellProduct(String name, int qtdToBeReposed){
+        boolean disponibilityProvider = false;
+        boolean exist = false;
 
-    }
+        for(int i = 0; i< ProdBD.size(); i++){
+            if(Provider.ProdBD.get(i).getName().startsWith(name)){
+                if(Provider.ProdBD.get(i).getQtd() >= qtdToBeReposed){
+                    Provider.ProdBD.get(i).setQtd(Provider.ProdBD.get(i).getQtd() - qtdToBeReposed);
+                    disponibilityProvider = true;
+                    exist = true;
+                    break;
+                }
+                else{
+                    System.out.println("ATENÇÃO: O número máximo de unidades que o fornecedor possui é " + Provider.ProdBD.get(i).getQtd()+"\n");
+                    disponibilityProvider = false;
+                    exist = true;
+                    break;
+                } 
+            }    
+        }
 
-    public void sellExistingProduct(Product product, int qtdToBeReposed){
-        
-    }
+        if(exist == false) System.out.println("ATENÇÃO: Produto não existe\n");
+
+        return disponibilityProvider;
+
+    }    
 }    
-    
     
    

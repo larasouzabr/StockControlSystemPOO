@@ -1,5 +1,5 @@
-import java.util.Scanner;
 
+import java.util.Scanner;
 import personPackage.Employee;
 import stockPackage.Stock;
 import personPackage.Provider;
@@ -43,51 +43,61 @@ public class App {
 					System.out.println("$ajuda\n");
 					System.out.println("\nComandos disponíveis para o usuário:\n----------------------------------------");
 					System.out.println("Ajuda - Exibe a ajuda do programa.");
-					System.out.println("AdicionarProduto - Adiciona um novo produto ao estoque");
-					System.out.println("MostrarProdutos - Exibe os produtos registrados no estoque.");
-					System.out.println("ProcurarProduto - Busca por um produto no estoque, podendo ser pelo nome ou id.");
-					System.out.println("RetirarDoEstoque - Retira o produto do estoque");
-                    System.out.println("ReporProduto - Repõe o produto do estoque");
-					System.out.println("DeletarProduto - Apaga um produto do estoque e todas as suas informações");
+					System.out.println("(1) - AdicionarProduto - Adiciona um novo produto ao estoque");
+					System.out.println("(2) - MostrarProdutos - Exibe os produtos registrados no estoque.");
+					System.out.println("(3) - ProcurarProduto - Busca por um produto no estoque, podendo ser pelo nome ou id.");
+					System.out.println("(4) - RetirarDoEstoque - Retira o produto do estoque");
+                    System.out.println("(5) - ReporProduto - Repõe o produto do estoque");
+					System.out.println("(6) - DeletarProduto - Apaga um produto do estoque e todas as suas informações");
+					System.out.println("(7) - ListarProdutosFornecedor - Lista todos os produtos disponíveis pelo fornecedor");
+					System.out.println("(8) - EditarProduto - Editar o id do produto");
 					System.out.println("-----------------------------------------------\nSair - Encerra o programa.");
 
 					break;
 				}
 
-				case "adicionarproduto":
+				case "1":
 				{
-					System.out.println("$adicionarproduto\n");
 					employee.createProduct(estoque);
 					break;
 				}
-				case "mostrarprodutos":	//Exibe todos os produtos disponíveis no banco de dados do estoque.
+				case "2":	//Exibe todos os produtos disponíveis no banco de dados do estoque.
 				{
-					System.out.println("$mostrarprodutos\n");
 					employee.productList();
 					break;
 				}
-				case "procurarproduto":	//Busca por uma identificação de um produto (ID de produto).
+				case "3":	//Busca por uma identificação de um produto (ID de produto).
 				{
-					System.out.println("$procurarproduto\n");
+					System.out.println("$3\n");
 					employee.findProduct(estoque);
 					break;
 				}
-                case "reporproduto":	//Busca por uma identificação de um produto (ID de produto).
+                case "4":
 				{
-					System.out.println("$reporproduto\n");
-					employee.productReplenish(estoque);
-					break;
-				}
-                case "retirardoestoque":
-				{
-					System.out.println("$retirardoestoque\n");
+					System.out.println("$4\n");
 					employee.productShipment(estoque);
 					break;
 				}
-				case "deletarproduto":
+				case "5":	//Busca por uma identificação de um produto (ID de produto).
 				{
-					System.out.println("$deletarproduto\n");
+					System.out.println("$5\n");
+					employee.productReplenish(estoque);
+					break;
+				}
+				case "6":
+				{
+					System.out.println("$6\n");
 					employee.deleteProduct(estoque);
+					break;
+				}
+				case "7":
+				{
+					provider.listProviderProducts();
+					break;
+				}
+				case "8":
+				{
+					employee.editProduct(estoque);
 					break;
 				}
 				case "sair":
