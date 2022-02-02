@@ -8,18 +8,25 @@ import productPackage.Product;
 import productPackage.SearchProdClass;
 import productPackage.SearchProductEnum;
 import personPackage.Provider;
-import personPackage.Employee;
 import java.text.NumberFormat;
+
 
 public class Stock {
     public ArrayList<Product> stock = new ArrayList<Product>();
     Locale localeBR = new Locale("pt", "BR");
 
+
+    /**
+     * Adiciona um novo produto no estoque
+     * Verifica se o produto está sendo disponibilizado pelo fornecedor em Provider.java
+     * @param name - nome do produto que será adicionado
+     * @param id - id do produto que será adicionado
+     */
     public void stockAdd(String name, int id) {
         boolean disponibilityStock = true;
 
         for (int i = 0; i < stock.size(); i++)
-            if (stock.get(i).getName().endsWith(name)) {
+            if (stock.get(i).getName().startsWith(name)) {
                 System.out.println("ATENÇÃO: Produto já existente no estoque\n");
                 disponibilityStock = false;
                 break;
@@ -34,11 +41,9 @@ public class Stock {
 
         if (disponibilityStock == true) {
             boolean disponibilityProvider = false;
-
             for (int j = 0; j < Provider.ProdBD.size(); j++) {
 
-                if (Provider.ProdBD.get(j).getName().endsWith(name)) {
-
+                if (Provider.ProdBD.get(j).getName().startsWith(name)) {
                     Product productAdd = new Product(name, id, 0,
                             Product.calculateProfitMargin(Provider.ProdBD.get(j).getPrice()),
                             SearchProductEnum.NãoProcurado, AvalProductEnum.INDISPONIVEL);
@@ -57,6 +62,14 @@ public class Stock {
         }
     }
 
+
+    /**
+     * Retira unidades de um produto no estoque
+     * Verifica se o produto existe no estoque
+     * Verifica se a quantidade de unidades que serão retiradas condiz com a quantidade de unidades existentes
+     * @param name - Nome do produto
+     * @param quantity - Quantidade de unidades que serão retiradas do estoque
+     */
     public void stockShipment(String name, int quantity) {
 
         boolean disponibilityStock = false;
@@ -88,6 +101,13 @@ public class Stock {
             System.out.println("ATENÇÃO: Produto não existe no estoque\n");
     }
 
+    /**
+     * Edita o ID de um produto
+     * Verifica se o ID digitado já existe
+     * @param id - Novo id do produto
+     * @param name - Nome do produto
+     */
+
     public void stockEditProduct(int id, String name) {
 
         boolean idExist = false;
@@ -112,6 +132,14 @@ public class Stock {
         }
     }
 
+
+    /**
+     * Repõe unidades de um produto existente no estoque
+     * Verifica se o produto existe no estoque
+     * Verifica se o fornecedor possui unidades suficientes em Provider.java
+     * @param name - Nome do produto
+     * @param quantity - Quantidade de unidades a serem repostas
+     */
     public void stockReplenish(String name, int quantity) {
 
         if (Provider.sellProduct(name, quantity)) {
@@ -128,13 +156,18 @@ public class Stock {
 
     }
 
+    /**
+     * Deleta um produto do estoque
+     * Verifica se o produto existe no estoque
+     * @param name - Nome do produto
+     */
     public void stockDeleteProduct(String name) {
 
         boolean existInStock = false;
 
         for (int i = 0; i < stock.size(); i++) {
 
-            if (stock.get(i).getName().endsWith(name)) {
+            if (stock.get(i).getName().startsWith(name)) {
                 existInStock = true;
                 System.out.println("O produto " + stock.get(i).getName()
                         + " e todas as suas informações foram deletadas do estoque\n");
@@ -146,7 +179,9 @@ public class Stock {
             System.out.println("ATENÇÃO: O produto " + name + " não existe no seu estoque\n");
     }
 
-
+    /**
+     * Lista os produtos do estoque
+     */
     public void listProducts() {
         if (stock.size() == 0) {
             System.out.println("---------------------");
@@ -154,13 +189,12 @@ public class Stock {
             System.out.println("---------------------");
 
         } else {
-            NumberFormat dinheiro = NumberFormat.getCurrencyInstance(localeBR);
 
-            System.out.println("Produtos encontrados:\nID | NOME |  VALOR  |  UND  |  PROCURA  |  DISPONIBILIDADE\n---------------------------------------------------------\n");
+            NumberFormat dinheiro = NumberFormat.getCurrencyInstance(localeBR);
+            System.out.println("\nProdutos encontrados:\nID | NOME |  VALOR  |  UND  |  PROCURA  |  DISPONIBILIDADE\n---------------------------------------------------------");
                 
             for (Product produto : stock) {
                 String ProdutoInfo = "";
-
                 ProdutoInfo += Integer.toString(produto.getId()) + " | ";
                 ProdutoInfo += produto.getName() + " | ";
                 ProdutoInfo += dinheiro.format(produto.getPrice()) + " | ";
