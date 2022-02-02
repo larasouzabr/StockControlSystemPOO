@@ -10,10 +10,18 @@ public class Provider extends Person {
     public static ArrayList<Product> ProdBD = new ArrayList<Product>(21);
     Locale localeBR = new Locale("pt","BR");
 
+    /**
+     * Construtor da classe provider
+     * @param name - Nome do Fornecedor
+     */
     public Provider(String name){
         super(name);
     }
 
+    /**
+     * Produtos que serão disponibilizados pelo fornecedor (Produtos de OFICINA)[
+     * O funcionário só poderá reabastecer ou adicionar um produto que o fornecedor disponibiliza
+     */
     public void ProviderObj(){
         { 
             Product Obj00 = new Product("Alicate", 1, 1000, 30.00f);
@@ -62,6 +70,9 @@ public class Provider extends Person {
         }
     }
 
+    /**
+     * Lista os produtos disponibilizados pelo fornecedor
+     */
     public void listProviderProducts(){
         NumberFormat dinheiro = NumberFormat.getCurrencyInstance(localeBR);
 
@@ -82,12 +93,19 @@ public class Provider extends Person {
 
     }
 
+    /**
+     * Verifica se o produto é disponibilizado pelo fornecedor
+     * Se sim, verifica se a quantidade de produtos a serem comprados é suficiente
+     * @param name - Nome do produto
+     * @param qtdToBeSold - Quantidade de produtos que serão comprados pelo funcionario
+     * @return - retorna true se o produto for disponibilizado pelo fornecedor e falso se não
+     */
     public static boolean sellProduct(String name, int qtdToBeSold){
         boolean disponibilityProvider = false;
         boolean exist = false;
 
         for(int i = 0; i< ProdBD.size(); i++){
-            if(Provider.ProdBD.get(i).getName().startsWith(name)){
+            if(Provider.ProdBD.get(i).getName().equals(name)){
                 if(Provider.ProdBD.get(i).getQtd() >= qtdToBeSold){
                     Provider.ProdBD.get(i).setQtd(Provider.ProdBD.get(i).getQtd() - qtdToBeSold);
                     disponibilityProvider = true;

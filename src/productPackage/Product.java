@@ -1,6 +1,6 @@
 package productPackage;
 
-public class Product {
+public class Product implements Comparable<Product>{
 
     private String name;
     private int quantity;
@@ -11,7 +11,22 @@ public class Product {
     public int recommendedQuantity = 100;
 
     /**
-     * Construtor da classe Product
+     * Primeiro construtor da classe Product, ele será usado pelo fornecedor na classe Provider.java
+     * 
+     * @param name                - Nome do Produto
+     * @param id                  - Código do Produto
+     * @param quantity            - Quantidade disponível no estoque
+     * @param price               - Preço do produto
+     */
+    public Product(String name, int id, int quantity, float price) {
+        this.name = name;
+        this.quantity = quantity;
+        this.id = id;
+        this.price = price;
+    }
+
+    /**
+     * Segundo construtor da classe Product, ele será usado no estoque na classe Stock.java
      * 
      * @param name                - Nome do Produto
      * @param id                  - Código do Produto
@@ -20,14 +35,6 @@ public class Product {
      * @param productSearch       - a popularidade do produto
      * @param productAvailability - a disponibilidade do produto
      */
-
-    public Product(String name, int id, int quantity, float price) {
-        this.name = name;
-        this.quantity = quantity;
-        this.id = id;
-        this.price = price;
-    }
-
     public Product(String name, int id, int quantity, float price, SearchProductEnum searchEnum,
             AvalProductEnum availability) {
 
@@ -38,6 +45,20 @@ public class Product {
         this.productSearch = searchEnum;
         this.productAvailability = availability;
     }
+
+    @Override public int compareTo(Product product){
+
+        return Integer.compare(this.quantity, product.getQtd());
+    }
+
+    /**
+     * Calcula a Procura do produto utilizando o enum SearchProductEnum.java
+     * Calcula o percentual de produtos que foram retirados do estoque
+     * Classifica a procura do produto de acordo com o percentual
+     * Utiliza os setters para modificar a procura cada vez que o método for chamado
+     * @param product - Produto em questão
+     * @param soldQtd - Quantidade de unidades do produto que foram retiradas do estoque
+     */
 
     public void calculatePdctSearch(Product product, int soldQtd) {
         float totalQtd = soldQtd + product.getQtd();
@@ -59,6 +80,12 @@ public class Product {
         }
     }
 
+    /**
+     * Calcula a disponibilidade do produto utilizando o enum AvalProductEnum.java
+     * Calcula o percentual de unidades do produtos existentes no estoque
+     * Classifica a disponibilidade do produto de acordo com o percentual
+     * @param product - Produto em questão
+     */
     public void disponibility(Product product) {
 
         float quantity = product.getQtd();
@@ -78,20 +105,22 @@ public class Product {
         } else if (percentProd <= 0.75 && percentProd > 0.5) // Estoque alto
         {
             product.setProductAvailability(AvalProductEnum.ALTA);
-        } else if (percentProd <= 1 && percentProd > 0.75) // Estoque cheio ou muito alto
+        } else if (percentProd > 0.75) // Estoque cheio ou muito alto
         {
             product.setProductAvailability(AvalProductEnum.MUITOALTA);
-        } else {
-            product.setProductAvailability(AvalProductEnum.INDISPONIVEL); // Em caso de uma falha no estoque, impedir a
-                                                                          // possibilidade de venda.
         }
     }
-    
+
+    /**
+     * Calcula a margem de lucro no preço de um produto individual
+     * @param suggestedPrice - Preço do produto sugerido pelo fornecedor em Provider.java
+     * @return - retorna um novo preço com 15% de lucro aplicado em cima do valor inicial
+     */
     public static float calculateProfitMargin(float suggestedPrice) {
         return suggestedPrice * 1.15f;
     }
-    // getters
 
+    // GETTERS
     public int getId() {
         return this.id;
     }
@@ -116,7 +145,7 @@ public class Product {
         return this.productAvailability;
     }
 
-    // setters
+    // SETTERS
     public void setId(int id) {
         this.id = id;
     }
@@ -141,6 +170,10 @@ public class Product {
         this.productAvailability = avalEnum;
     }
 
+    @Override
+    /**
+     * Formatando a saída.
+     */
     public String toString() {
         String separator = "-------------------------------";
         String productInfo = "\nProduto: " + this.getName() + "\n" + "Código: " + this.getId() + "\n"
