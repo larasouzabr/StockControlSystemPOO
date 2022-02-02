@@ -10,29 +10,8 @@ public class Employee extends Person {
     public Employee(String name) {
         super(name);
     }
-
-    public void createProduct(String name, int id) {
-        stockAccess.stockAdd(name, id);
-    }
-
-    public void productShipment(String name, int qtd) {
-        stockAccess.stockShipment(name, qtd);
-    }
-
-    public void productReplenish(String name, int qtdToBeReplenish) {
-        stockAccess.stockReplanish(name, qtdToBeReplenish);
-    }
-
     public void productList(){
         stockAccess.listProducts();
-    }
-
-    public void editProduct(int id, String name) {
-        stockAccess.editProduct(id, name);
-    }
-
-    public void deleteProduct(String name) {
-        stockAccess.stockDeleteProduct(name);
     }
 
     public void findProductById(int id) {
@@ -73,10 +52,6 @@ public class Employee extends Person {
 
     }
 
-    public static float calculateProfitMargin(float suggestedPrice) {
-        return suggestedPrice * 1.15f;
-    }
-
 
     public void createProduct(Stock estoque) {
         System.out.println(separator+"\n");
@@ -90,7 +65,7 @@ public class Employee extends Person {
         System.out.println("\n"+separator);
 
         try {
-            createProduct(nameStr, idNbr);
+        stockAccess.stockAdd(nameStr, idNbr);
         } catch (Exception e) {
             System.out.println("\n\n" + e.getMessage() + "\n\n");
         }
@@ -124,7 +99,7 @@ public class Employee extends Person {
             Scanner name = new Scanner(System.in);
             String nameStr = iniMaiuscula(name.next());
             try {
-                findProductByName(nameStr);
+            findProductByName(nameStr);
             } catch (Exception e) {
                 System.out.println("\n\n" + e.getMessage() + "\n\n");
             }
@@ -142,7 +117,7 @@ public class Employee extends Person {
         int qtdNbr = Integer.parseInt(qtd.next());
         System.out.println("\n"+separator);
         try {
-        productReplenish(nameStr, qtdNbr);
+      stockAccess.stockReplenish(nameStr, qtdNbr);
         } catch (Exception e) {
             System.out.println("\n\n" + e.getMessage() + "\n\n");
         }
@@ -171,7 +146,7 @@ public class Employee extends Person {
         System.out.println("\n"+separator);
 
         try {
-            productShipment(nameStr, qtdNbr);
+         stockAccess.stockShipment(nameStr, qtdNbr);
         } catch (Exception e) {
             System.out.println("\n\n" + e.getMessage() + "\n\n");
         }
@@ -189,7 +164,7 @@ public class Employee extends Person {
         System.out.println("\n"+separator);
 
         try {
-            editProduct(idNbr, nameStr);
+            stockAccess.stockEditProduct(idNbr, nameStr);
         } catch (Exception e) {
             System.out.println("\n\n" + e.getMessage() + "\n\n");
         }
@@ -203,7 +178,7 @@ public class Employee extends Person {
         System.out.println("\n"+separator);
 
         try {
-            deleteProduct(nameStr);
+            stockAccess.stockDeleteProduct(nameStr);
         } catch (Exception e) {
             System.out.println("\n\n" + e.getMessage() + "\n\n");
         }

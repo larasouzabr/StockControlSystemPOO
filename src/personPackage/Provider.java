@@ -74,7 +74,7 @@ public class Provider extends Person {
             ProdutoInfo += Integer.toString(produto.getId()) + " | ";
             ProdutoInfo += produto.getName() + " | ";
             ProdutoInfo += dinheiro.format(produto.getPrice()) + " | ";
-            ProdutoInfo += Integer.toString(produto.getQtd()) + "und | ";
+            ProdutoInfo += Integer.toString(produto.getQtd()) + "und ";
 
             System.out.println(ProdutoInfo);
         }
@@ -82,14 +82,14 @@ public class Provider extends Person {
 
     }
 
-    public static boolean sellProduct(String name, int qtdToBeReposed){
+    public static boolean sellProduct(String name, int qtdToBeSold){
         boolean disponibilityProvider = false;
         boolean exist = false;
 
         for(int i = 0; i< ProdBD.size(); i++){
             if(Provider.ProdBD.get(i).getName().startsWith(name)){
-                if(Provider.ProdBD.get(i).getQtd() >= qtdToBeReposed){
-                    Provider.ProdBD.get(i).setQtd(Provider.ProdBD.get(i).getQtd() - qtdToBeReposed);
+                if(Provider.ProdBD.get(i).getQtd() >= qtdToBeSold){
+                    Provider.ProdBD.get(i).setQtd(Provider.ProdBD.get(i).getQtd() - qtdToBeSold);
                     disponibilityProvider = true;
                     exist = true;
                     break;

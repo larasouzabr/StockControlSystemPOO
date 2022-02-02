@@ -86,7 +86,10 @@ public class Product {
                                                                           // possibilidade de venda.
         }
     }
-
+    
+    public static float calculateProfitMargin(float suggestedPrice) {
+        return suggestedPrice * 1.15f;
+    }
     // getters
 
     public int getId() {

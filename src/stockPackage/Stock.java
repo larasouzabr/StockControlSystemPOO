@@ -40,7 +40,7 @@ public class Stock {
                 if (Provider.ProdBD.get(j).getName().endsWith(name)) {
 
                     Product productAdd = new Product(name, id, 0,
-                            Employee.calculateProfitMargin(Provider.ProdBD.get(j).getPrice()),
+                            Product.calculateProfitMargin(Provider.ProdBD.get(j).getPrice()),
                             SearchProductEnum.NãoProcurado, AvalProductEnum.INDISPONIVEL);
 
                     stock.add(productAdd);
@@ -88,7 +88,7 @@ public class Stock {
             System.out.println("ATENÇÃO: Produto não existe no estoque\n");
     }
 
-    public void editProduct(int id, String name) {
+    public void stockEditProduct(int id, String name) {
 
         boolean idExist = false;
 
@@ -112,7 +112,7 @@ public class Stock {
         }
     }
 
-    public void stockReplanish(String name, int quantity) {
+    public void stockReplenish(String name, int quantity) {
 
         if (Provider.sellProduct(name, quantity)) {
             for (int i = 0; i < stock.size(); i++) {
@@ -156,8 +156,8 @@ public class Stock {
         } else {
             NumberFormat dinheiro = NumberFormat.getCurrencyInstance(localeBR);
 
-            System.out.println("Produtos encontrados:\n--------------------------------------------------");
-
+            System.out.println("Produtos encontrados:\nID | NOME |  VALOR  |  UND  |  PROCURA  |  DISPONIBILIDADE\n---------------------------------------------------------\n");
+                
             for (Product produto : stock) {
                 String ProdutoInfo = "";
 
@@ -170,7 +170,7 @@ public class Stock {
 
                 System.out.println(ProdutoInfo);
             }
-            System.out.println("--------------------------------------------------");
+            System.out.println("---------------------------------------------------------");
         }
     }
 }
