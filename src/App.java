@@ -6,13 +6,15 @@ import personPackage.Provider;
 
 public class App {    
     public static void main(String[] args) throws Exception {
-
+		Stock estoque = new Stock();
+		if(Stock.stock.size() == 0){
+			Stock.readList();
+		} 
    // Apresentação dos responsáveis:
 		System.out.println("\n\nAlunos:\n\tLara Gabrielly Souza | 508159\n\tVictor Anthony | 508653");
 		System.out.println("Professor: Atílio Gomes \nCurso: Eng. de Software\nDisciplina: Programação Orientada a Objetos \n");
         System.out.println("Bem-vindo ao sistema de Estoque da Oficina Bug! \n------------------------------------------------------ ");
 		// Instancia a lista de produtos que estará disponível como DB.
-		Stock estoque = new Stock();
         System.out.println("\nDigite o seu nome:");
         Scanner userName = new Scanner(System.in);
 		String userNameStr = userName.next();
@@ -22,7 +24,6 @@ public class App {
 		Provider provider = new Provider("Fornecedor da Oficina");
 		provider.ProviderObj();
         System.out.println("Bem-vindo(a), "+ userNameStr +"! Você poderá usar o seguinte comando para começarmos: ");
-
 		// Loop de funcionamento em modo de interação:
 		boolean sair = false;
 

@@ -1,6 +1,8 @@
 package productPackage;
 
-public class Product implements Comparable<Product>{
+import java.io.Serializable;
+
+public class Product implements Comparable<Product>,Serializable{
 
     private String name;
     private int quantity;

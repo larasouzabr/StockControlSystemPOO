@@ -1,11 +1,12 @@
 package personPackage;
 
+import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 import productPackage.Product;
 
-public class Provider extends Person {
+public class Provider extends Person implements Serializable {
 
     public static ArrayList<Product> ProdBD = new ArrayList<Product>(21);
     Locale localeBR = new Locale("pt","BR");

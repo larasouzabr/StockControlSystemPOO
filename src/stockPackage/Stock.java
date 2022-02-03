@@ -8,13 +8,89 @@ import productPackage.Product;
 import productPackage.SearchProdClass;
 import productPackage.SearchProductEnum;
 import personPackage.Provider;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.io.StreamCorruptedException;
+import java.rmi.server.ExportException;
 import java.text.NumberFormat;
 
 
-public class Stock {
-    public ArrayList<Product> stock = new ArrayList<Product>();
+public class Stock implements Serializable {
+    public static ArrayList<Product> stock = new ArrayList<Product>();
     Locale localeBR = new Locale("pt", "BR");
 
+
+
+        // method for writing the file
+        static void writeList() {
+            // use try-with-resources to ensure file is closed safely
+            try (
+                    /* create a FileOutputStream object, carFile, that handles
+                    the low-level details of writing the list to a file 
+                    which we have called "Cars.ser" */
+                    FileOutputStream productFile = new FileOutputStream("product.ser");
+                    // create an ObjectOutputStream object to wrap around carFile
+                    ObjectOutputStream productStream = new ObjectOutputStream(productFile);
+                )
+            {
+                // write each element of the list to the file
+                for(Product item : stock) {
+                    productStream.writeObject(item);
+                }
+            }
+            catch(IOException e) {
+                System.out.println("There was a problem writing the file");
+                System.out.println(e);
+            }
+        }
+    
+         // method for reading the file
+        public static void readList() {
+            Product tempProduct;
+            boolean endOfFile = false;
+    
+            // use try-with-resources to ensure file is closed safely
+            try (
+                    // create a FileInputStream object that handles the low-level 
+                    // details of reading the list from the "Cars.ser" file 
+                    FileInputStream productFile = new FileInputStream("product.ser");
+                    // create an ObjectInputStream object to wrap around carFile
+                    ObjectInputStream productStream = new ObjectInputStream(productFile);
+                )
+            {
+                while(endOfFile == false) { 
+                    try {
+                        // read a whole object
+                        tempProduct = (Product) productStream.readObject();
+                        stock.add(tempProduct);
+                    }
+                    catch(ExportException e) {
+                        // use the fact that readObject throws an EOFException
+                        // to check whether the end of the filehas been reached
+                        endOfFile = true;
+                    }                
+                }
+            }
+            catch(FileNotFoundException e) {
+                System.out.println("\nNo previous file was read");
+            }
+            catch(ClassNotFoundException e) { // thrown by readObject
+                System.out.println("\nTrying to read an object of an unknown class");
+            }
+            catch(StreamCorruptedException e) { // thrown by the constructor ObjectInputStream
+                System.out.println("\nUnreadable file format");
+            }
+            catch(IOException e) {
+                System.out.println("\nerror: There was a problem reading the file");
+                System.out.println(e);
+            }
+        }
 
     /**
      * Adiciona um novo produto no estoque
@@ -49,6 +125,10 @@ public class Stock {
                             SearchProductEnum.NãoProcurado, AvalProductEnum.INDISPONIVEL);
 
                     stock.add(productAdd);
+                    writeList();
+                    if(stock.size() == 0){
+                        readList();
+                    }    
                     System.out.println(
                             "Produto Adicionado no Estoque\n Caso queira adicionar unidades desse produto digite 5\n");
                     disponibilityProvider = true;
