@@ -103,6 +103,7 @@ public class App {
 				}
 				case "sair": //Sai da aplicação
 				{
+					Stock.writeList();
 					System.out.println("$sair\n");
 					System.out.println("\n\nSaindo do programa...\n\n");
 					sair = true;

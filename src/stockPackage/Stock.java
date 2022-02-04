@@ -30,7 +30,7 @@ public class Stock implements Serializable {
         /**
          * Método para escrever os dados da aplicação em um arquivo
          */
-        static void writeList() {
+        public static void writeList() {
             try (
                 FileOutputStream productFile = new FileOutputStream("product.ser");
                 ObjectOutputStream productStream = new ObjectOutputStream(productFile);
@@ -114,7 +114,6 @@ public class Stock implements Serializable {
                             SearchProductEnum.NãoProcurado, AvalProductEnum.INDISPONIVEL);
 
                     stock.add(productAdd);
-                    writeList();
                     if(stock.size() == 0){
                         readList();
                     }    
@@ -153,6 +152,9 @@ public class Stock implements Serializable {
                     System.out.println("Você retirou " + quantity + " unidades de " + name
                             + " do estoque e agora possui " + stock.get(i).getQtd() + " disponíveis\n");
                     disponibilityStock = true;
+                    if(stock.size() == 0){
+                        readList();
+                    }    
                     break;
 
                 } else {
