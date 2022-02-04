@@ -42,7 +42,6 @@ public class Stock implements Serializable {
             }
             catch(IOException e) {
                 System.out.println("There was a problem writing the file");
-                System.out.println(e);
             }
         }
     
@@ -79,7 +78,6 @@ public class Stock implements Serializable {
             }
             catch(IOException e) {
                 System.out.println("\nerror: There was a problem reading the file");
-                System.out.println(e);
             }
         }
 
