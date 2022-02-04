@@ -10,7 +10,7 @@ public class App {
 		if(Stock.stock.size() == 0){
 			Stock.readList();
 		} 
-   // Apresentação dos responsáveis:
+   		// Apresentação dos responsáveis:
 		System.out.println("\n\nAlunos:\n\tLara Gabrielly Souza | 508159\n\tVictor Anthony | 508653");
 		System.out.println("Professor: Atílio Gomes \nCurso: Eng. de Software\nDisciplina: Programação Orientada a Objetos \n");
         System.out.println("Bem-vindo ao sistema de Estoque da Oficina Bug! \n------------------------------------------------------ ");
@@ -31,7 +31,7 @@ public class App {
 		{
 			String userEntryStr = "";
 
-			System.out.println("ajuda - Exibe os comandos disponíveis.");
+			System.out.println("\najuda - Exibe os comandos disponíveis.");
 			System.out.print("Entre com o comando desejado: ");
 			Scanner userEntry = new Scanner(System.in);
 
@@ -57,7 +57,7 @@ public class App {
 					break;
 				}
 
-				case "1":
+				case "1": //Cria um novo produto no estoque
 				{
 					employee.createProduct(estoque);
 					break;
@@ -73,35 +73,35 @@ public class App {
 					employee.findProduct(estoque);
 					break;
 				}
-                case "4":
+                case "4":  //Retira unidades de um produto do estoque
 				{
 					System.out.println("$4\n");
 					employee.productShipment(estoque);
 					break;
 				}
-				case "5":	//Busca por uma identificação de um produto (ID de produto).
+				case "5":	//Repõe unidades de um produto do estoque.
 				{
 					System.out.println("$5\n");
 					employee.productReplenish(estoque);
 					break;
 				}
-				case "6":
+				case "6":	//Deleta um produto do estoque
 				{
 					System.out.println("$6\n");
 					employee.deleteProduct(estoque);
 					break;
 				}
-				case "7":
+				case "7":	//Lista os produtos disponíveis no fornecedor
 				{
 					provider.listProviderProducts();
 					break;
 				}
-				case "8":
+				case "8":	//Edita o ID de um produto
 				{
 					employee.editProduct(estoque);
 					break;
 				}
-				case "sair":
+				case "sair": //Sai da aplicação
 				{
 					System.out.println("$sair\n");
 					System.out.println("\n\nSaindo do programa...\n\n");

@@ -1,6 +1,8 @@
 package productPackage;
 
+import java.util.Locale;
 import java.io.Serializable;
+import java.text.NumberFormat;
 
 public class Product implements Comparable<Product>,Serializable{
 
@@ -11,6 +13,8 @@ public class Product implements Comparable<Product>,Serializable{
     private SearchProductEnum productSearch;
     private AvalProductEnum productAvailability;
     public int recommendedQuantity = 100;
+    Locale localeBR = new Locale("pt", "BR");
+
 
     /**
      * Primeiro construtor da classe Product, ele será usado pelo fornecedor na classe Provider.java
@@ -177,9 +181,12 @@ public class Product implements Comparable<Product>,Serializable{
      * Formatando a saída.
      */
     public String toString() {
+        
+        NumberFormat dinheiro = NumberFormat.getCurrencyInstance(localeBR);
+
         String separator = "-------------------------------";
         String productInfo = "\nProduto: " + this.getName() + "\n" + "Código: " + this.getId() + "\n"
-                + "Valor Unitário: " + this.getPrice() + "\n" + "Quantidade disponível: " + this.getQtd() + "\n";
+                + "Valor Unitário: " + dinheiro.format(this.getPrice()) + "\n" + "Quantidade disponível: " + this.getQtd() + "\n";
         if (this.getProductSearch() == null || this.getProductAvailability() == null) {
             return productInfo + separator;
         } else

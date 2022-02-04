@@ -76,7 +76,7 @@ public class Employee extends Person {
         System.out.println(separator+"\n");
         System.out.print("Digite o nome do produto: ");
         Scanner name = new Scanner(System.in);
-        String nameStr = iniMaiuscula(name.next());
+        String nameStr = iniMaiuscula(name.nextLine());
         System.out.println(separator);
         System.out.print("Digite o código do produto: ");
         Scanner id = new Scanner(System.in);
@@ -100,7 +100,7 @@ public class Employee extends Person {
     public void findProduct(Stock estoque) {
         System.out.print("Digite um numero para entrar com um nome ou id de um produto:\n(1) - id\n(2) - nome   ");
         Scanner escolha = new Scanner(System.in);
-        int escolhaStr = Integer.parseInt(escolha.next());
+        int escolhaStr = Integer.parseInt(escolha.nextLine());
         if (escolhaStr == 1) {
             System.out.println("\n"+separator);
             System.out.print("Insira o id de um produto: ");
@@ -120,7 +120,7 @@ public class Employee extends Person {
             System.out.println(separator+"\n");
 
             Scanner name = new Scanner(System.in);
-            String nameStr = iniMaiuscula(name.next());
+            String nameStr = iniMaiuscula(name.nextLine());
             try {
             findProductByName(nameStr);
             } catch (Exception e) {
@@ -137,7 +137,7 @@ public class Employee extends Person {
         System.out.println(separator);
         System.out.print("Digite o nome do produto: ");
         Scanner name = new Scanner(System.in);
-        String nameStr = iniMaiuscula(name.next());
+        String nameStr = iniMaiuscula(name.nextLine());
         System.out.println("\n"+separator);
         System.out.print("Digite a quantidade do produto a ser reposta: ");
         Scanner qtd = new Scanner(System.in);
@@ -158,7 +158,7 @@ public class Employee extends Person {
         System.out.println(separator+"\n");
         System.out.print("Digite o nome do produto: ");
         Scanner name = new Scanner(System.in);
-        String nameStr = iniMaiuscula(name.next());
+        String nameStr = iniMaiuscula(name.nextLine());
         System.out.println(separator);
         System.out.print("Digite a quantidade do produto a sair do estoque: ");
         Scanner qtd = new Scanner(System.in);
@@ -180,7 +180,7 @@ public class Employee extends Person {
         System.out.println(separator+"\n");
         System.out.print("Digite o nome do produto que deseja editar: ");
         Scanner name = new Scanner(System.in);
-        String nameStr = iniMaiuscula(name.next());
+        String nameStr = iniMaiuscula(name.nextLine());
         System.out.println(separator);
         System.out.print("Digite o novo ID do produto: ");
         Scanner id = new Scanner(System.in);
@@ -202,7 +202,7 @@ public class Employee extends Person {
         System.out.println(separator+"\n");
         System.out.print("Digite o nome do produto: ");
         Scanner name = new Scanner(System.in);
-        String nameStr = iniMaiuscula(name.next());
+        String nameStr = iniMaiuscula(name.nextLine());
         System.out.println("\n"+separator);
 
         try {

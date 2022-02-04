@@ -27,19 +27,15 @@ public class Stock implements Serializable {
 
 
 
-        // method for writing the file
+        /**
+         * Método para escrever os dados da aplicação em um arquivo
+         */
         static void writeList() {
-            // use try-with-resources to ensure file is closed safely
             try (
-                    /* create a FileOutputStream object, carFile, that handles
-                    the low-level details of writing the list to a file 
-                    which we have called "Cars.ser" */
-                    FileOutputStream productFile = new FileOutputStream("product.ser");
-                    // create an ObjectOutputStream object to wrap around carFile
-                    ObjectOutputStream productStream = new ObjectOutputStream(productFile);
+                FileOutputStream productFile = new FileOutputStream("product.ser");
+                ObjectOutputStream productStream = new ObjectOutputStream(productFile);
                 )
             {
-                // write each element of the list to the file
                 for(Product item : stock) {
                     productStream.writeObject(item);
                 }
@@ -50,29 +46,24 @@ public class Stock implements Serializable {
             }
         }
     
-         // method for reading the file
+         /**
+          * Método para ler os dados que forem sendo registrados na aplicação
+          */
         public static void readList() {
             Product tempProduct;
             boolean endOfFile = false;
     
-            // use try-with-resources to ensure file is closed safely
             try (
-                    // create a FileInputStream object that handles the low-level 
-                    // details of reading the list from the "Cars.ser" file 
                     FileInputStream productFile = new FileInputStream("product.ser");
-                    // create an ObjectInputStream object to wrap around carFile
                     ObjectInputStream productStream = new ObjectInputStream(productFile);
                 )
             {
                 while(endOfFile == false) { 
                     try {
-                        // read a whole object
                         tempProduct = (Product) productStream.readObject();
                         stock.add(tempProduct);
                     }
                     catch(ExportException e) {
-                        // use the fact that readObject throws an EOFException
-                        // to check whether the end of the filehas been reached
                         endOfFile = true;
                     }                
                 }
@@ -80,10 +71,10 @@ public class Stock implements Serializable {
             catch(FileNotFoundException e) {
                 System.out.println("\nNo previous file was read");
             }
-            catch(ClassNotFoundException e) { // thrown by readObject
+            catch(ClassNotFoundException e) { 
                 System.out.println("\nTrying to read an object of an unknown class");
             }
-            catch(StreamCorruptedException e) { // thrown by the constructor ObjectInputStream
+            catch(StreamCorruptedException e) { 
                 System.out.println("\nUnreadable file format");
             }
             catch(IOException e) {
@@ -222,6 +213,8 @@ public class Stock implements Serializable {
      */
     public void stockReplenish(String name, int quantity) {
 
+        boolean stockDisponible = false;
+
         if (Provider.sellProduct(name, quantity)) {
             for (int i = 0; i < stock.size(); i++) {
                 if (stock.get(i).getName().startsWith(name)) {
@@ -229,9 +222,14 @@ public class Stock implements Serializable {
                     System.out.println("O produto " + stock.get(i).getName() + " foi reabastecido com " + quantity
                             + " unidades e agora possui " + stock.get(i).getQtd() + "\n");
                     stock.get(i).disponibility(stock.get(i));
+                    stockDisponible = true;
                     break;
                 }
             }
+
+        if(stockDisponible == false)  
+            System.out.println("ATENÇÃO: O produto " + name + " não existe no seu estoque\n");
+
         }
 
     }
